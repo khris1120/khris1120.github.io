@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="閱讀 SLERP 文獻Detail：Paper Link 進行 MMLU 評分嘗試了以上五個種類，但運行時間超過兩個多小時還沒有結果 Update     accuracy time    anatomy 0.422 4570.370   clinical_knowledge 4.000 11009.895   college_biology 0.472 5888.956   college_me">
+<meta property="og:type" content="article">
+<meta property="og:title" content="20240708 Intern Note">
+<meta property="og:url" content="http://khris1120.github.io/2024/07/08/20240708-Intern-Note/index.html">
+<meta property="og:site_name" content="KhrisBlog">
+<meta property="og:description" content="閱讀 SLERP 文獻Detail：Paper Link 進行 MMLU 評分嘗試了以上五個種類，但運行時間超過兩個多小時還沒有結果 Update     accuracy time    anatomy 0.422 4570.370   clinical_knowledge 4.000 11009.895   college_biology 0.472 5888.956   college_me">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://khris1120.github.io/2024/07/08/20240708-Intern-Note/img1.png">
+<meta property="article:published_time" content="2024-07-08T09:01:03.000Z">
+<meta property="article:modified_time" content="2024-07-09T09:02:46.990Z">
+<meta property="article:author" content="Khris Shie">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://khris1120.github.io/2024/07/08/20240708-Intern-Note/img1.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>20240708 Intern Note</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/khris1120">Projects</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/01/26/hello-world/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/&text=20240708 Intern Note"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/&title=20240708 Intern Note"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/&is_video=false&description=20240708 Intern Note"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=20240708 Intern Note&body=Check out this article: http://khris1120.github.io/2024/07/08/20240708-Intern-Note/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/&title=20240708 Intern Note"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/&title=20240708 Intern Note"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/&title=20240708 Intern Note"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/&title=20240708 Intern Note"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/&name=20240708 Intern Note&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/&t=20240708 Intern Note"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%96%B1%E8%AE%80-SLERP-%E6%96%87%E7%8D%BB"><span class="toc-number">1.</span> <span class="toc-text">閱讀 SLERP 文獻</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%B2%E8%A1%8C-MMLU-%E8%A9%95%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text">進行 MMLU 評分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E9%96%B1%E5%85%B6%E4%BB%96%E7%9A%84-merge-methods"><span class="toc-number">3.</span> <span class="toc-text">查閱其他的 merge methods</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        20240708 Intern Note
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Khris Shie</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-07-08T09:01:03.000Z" class="dt-published" itemprop="datePublished">2024-07-08</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h3 id="閱讀-SLERP-文獻"><a href="#閱讀-SLERP-文獻" class="headerlink" title="閱讀 SLERP 文獻"></a>閱讀 SLERP 文獻</h3><p>Detail：<br><a target="_blank" rel="noopener" href="https://dl.acm.org/doi/abs/10.1145/325334.325242">Paper Link</a></p>
+<h3 id="進行-MMLU-評分"><a href="#進行-MMLU-評分" class="headerlink" title="進行 MMLU 評分"></a>進行 MMLU 評分</h3><p><img src="/2024/07/08/20240708-Intern-Note/img1.png"><br>嘗試了以上五個種類，但運行時間超過兩個多小時還沒有結果</p>
+<p><em>Update</em></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>accuracy</th>
+<th>time</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>anatomy</td>
+<td>0.422</td>
+<td>4570.370</td>
+</tr>
+<tr>
+<td>clinical_knowledge</td>
+<td>4.000</td>
+<td>11009.895</td>
+</tr>
+<tr>
+<td>college_biology</td>
+<td>0.472</td>
+<td>5888.956</td>
+</tr>
+<tr>
+<td>college_medicine</td>
+<td>0.312</td>
+<td>7652.638</td>
+</tr>
+<tr>
+<td>medical_genetics</td>
+<td>0.530</td>
+<td>2989.634</td>
+</tr>
+</tbody></table>
+<h3 id="查閱其他的-merge-methods"><a href="#查閱其他的-merge-methods" class="headerlink" title="查閱其他的 merge methods"></a>查閱其他的 merge methods</h3><p><a target="_blank" rel="noopener" href="https://github.com/sakanaai/evolutionary-model-merge">evolutionary model merge</a><br><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/evolutionary-optimization-of-model-merging">paper link</a></p>
+<p>由於原先的 model merge 需要自己選擇模型與演算法，因此就會添加許多不必要的人為因素。此種方法自動尋找不同的開源模型進行組合，以避免上面提到的問題。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/khris1120">Projects</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%96%B1%E8%AE%80-SLERP-%E6%96%87%E7%8D%BB"><span class="toc-number">1.</span> <span class="toc-text">閱讀 SLERP 文獻</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%B2%E8%A1%8C-MMLU-%E8%A9%95%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text">進行 MMLU 評分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E9%96%B1%E5%85%B6%E4%BB%96%E7%9A%84-merge-methods"><span class="toc-number">3.</span> <span class="toc-text">查閱其他的 merge methods</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/&text=20240708 Intern Note"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/&title=20240708 Intern Note"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/&is_video=false&description=20240708 Intern Note"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=20240708 Intern Note&body=Check out this article: http://khris1120.github.io/2024/07/08/20240708-Intern-Note/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/&title=20240708 Intern Note"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/&title=20240708 Intern Note"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/&title=20240708 Intern Note"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/&title=20240708 Intern Note"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/&name=20240708 Intern Note&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://khris1120.github.io/2024/07/08/20240708-Intern-Note/&t=20240708 Intern Note"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024
+    Khris Shie
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+      --><li><a href="/">Home</a></li><!--
+    --><!--
+      --><li><a href="/about/">About</a></li><!--
+    --><!--
+      --><li><a href="/archives/">Writing</a></li><!--
+    --><!--
+      --><li><a target="_blank" rel="noopener" href="http://github.com/khris1120">Projects</a></li><!--
+    --><!--
+      --><li><a href="/search/">Search</a></li><!--
+    -->
+      </ul>
+      <ul>
+        
+          <!-- 不蒜子统计 -->
+          <span id="busuanzi_container_site_pv">
+              TOTAL WEBSITE VIEWS <span id="busuanzi_value_site_pv"></span>
+          </span>
+          <span class="post-meta-divider">|</span>
+          <span id="busuanzi_container_site_uv" style='display:none'>
+                  VISITOR COUNT <span id="busuanzi_value_site_uv"></span>
+          </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        
+      </ul>
+    </nav>
+  </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
