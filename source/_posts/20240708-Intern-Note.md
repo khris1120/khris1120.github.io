@@ -19,7 +19,7 @@ _Update_
 |                    | accuracy | time      |
 | ------------------ | -------- | --------- |
 | anatomy            | 0.422    | 4570.370  |
-| clinical_knowledge | 4.000    | 11009.895 |
+| clinical_knowledge | 0.400    | 11009.895 |
 | college_biology    | 0.472    | 5888.956  |
 | college_medicine   | 0.312    | 7652.638  |
 | medical_genetics   | 0.530    | 2989.634  |
